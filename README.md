@@ -1,4 +1,3 @@
-# Create-GUI-in-Python-using-Tkinter
 # Creating GUI applications using Python Tkinter library
 
 Python provides various options for developing graphical user interfaces (GUIs). Most important are listed below.
