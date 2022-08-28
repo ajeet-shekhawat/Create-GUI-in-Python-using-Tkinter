@@ -1,3 +1,4 @@
+from cgitb import text
 from ctypes import alignment
 from stat import FILE_ATTRIBUTE_NORMAL
 from tkinter import *
@@ -6,11 +7,29 @@ root = Tk()
 root.title("Calculator")
 root.configure(bg="#262626")
 
-# entry field
-e = Entry(root, font=('calibre',20, 'bold'),width=20, bg="#262626", fg="white", 
-    borderwidth=0, justify=RIGHT)
-e.grid(row=0,column=0, columnspan=4, padx=2, pady=3)
+def isfloat(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
+
+def only_numbers(char):
+    return isfloat(char)
+
+validation = root.register(only_numbers)
+
+# # entry field 0
+e0 = Entry(root, font=('calibre',10, 'normal'),width=42, bg="#262626", fg="white", borderwidth=0, justify=RIGHT)
+e0.grid(row=0,column=0, columnspan=4, padx=2, pady=3)
+e0.insert(0,"")
+
+# entry field 1
+e = Entry(root, validate='key', validatecommand=(validation, '%S'),
+        font=('calibre',20, 'bold'),width=20, bg="#262626", fg="white", borderwidth=0, justify=RIGHT)
+e.grid(row=1,column=0, columnspan=4, padx=2, pady=3)
 e.insert(0, 0)
+e.focus()
 
 # convert number into int or float
 def numFloatInt(eVal):
@@ -34,6 +53,7 @@ def button_click(number):
 # Function to clear values from entry box
 def btnClearAll():
     e.delete(0,END)
+    e0.delete(0,END)
     e.insert(0,0)
 
 # Function to clear single values from entry box
@@ -63,6 +83,7 @@ def btnAdd():
     global math
     math = "addition"
     f_num = numFloatInt(e.get())
+    e0.insert(0,str(f_num)+"+")
     e.delete(0,END)
 
 # Function for subtraction
@@ -71,6 +92,7 @@ def btnSub():
     global math
     math = "subtraction"
     f_num = numFloatInt(e.get())
+    e0.insert(0,str(f_num)+"-")
     e.delete(0,END)
 
 # Function for multiply
@@ -79,6 +101,7 @@ def btnMultiply():
     global math
     math = "multiplication"
     f_num = numFloatInt(e.get())
+    e0.insert(0,str(f_num)+"x")
     e.delete(0,END)
 
 # Function for divide
@@ -87,23 +110,29 @@ def btnDivide():
     global math
     math = "division"
     f_num = numFloatInt(e.get())
+    e0.insert(0,str(f_num)+"/")
     e.delete(0,END)
 
 # Function for Equal
 def btnEqual():
     s_num = numFloatInt(e.get())
     e.delete(0, END)
+    e0.delete(0,END)
 
     if math=="addition":
+        e0.insert(0,str(f_num)+"+"+str(s_num)+"=")
         e.insert(0,f_num + s_num)
     
     if math=="subtraction":
+        e0.insert(0,str(f_num)+"-"+str(s_num)+"=")
         e.insert(0,f_num - s_num)
     
     if math=="multiplication":
+        e0.insert(0,str(f_num)+"x"+str(s_num)+"=")
         e.insert(0,f_num * s_num)
 
     if math=="division":
+        e0.insert(0,str(f_num)+"/"+str(s_num)+"=")
         res = f_num / s_num
         if f_num % s_num == 0:
             e.insert(0,numFloatInt(res))
@@ -152,36 +181,36 @@ button_decimal = Button(root, text=".",  width=btnWidth, height=bthHeight, font=
 button_equal = Button(root, text="=",  width=btnWidth, height=bthHeight, font=fontbutton, fg="#293462", bg="#FEDB39", padx=pdxBtn, pady=pdyBtn, borderwidth=0, command=btnEqual)
 
 # Show Buttons on Screen
-# Row 1 button
+# Row 2 button
 sbtnpadx = 2
 sbtnpady = 2
-button_percent.grid(row=1, column=0, padx=sbtnpadx, pady=sbtnpady)
-button_clear.grid(row=1, column=1, padx=sbtnpadx, pady=sbtnpady)
-button_delete.grid(row=1, column=2, padx=sbtnpadx, pady=sbtnpady)
-button_divide.grid(row=1, column=3, padx=sbtnpadx, pady=sbtnpady)
-
-# Row 2 button
-button_7.grid(row=2, column=0, padx=sbtnpadx, pady=sbtnpady)
-button_8.grid(row=2, column=1, padx=sbtnpadx, pady=sbtnpady)
-button_9.grid(row=2, column=2, padx=sbtnpadx, pady=sbtnpady)
-button_multiply.grid(row=2, column=3, padx=sbtnpadx, pady=sbtnpady)
+button_percent.grid(row=2, column=0, padx=sbtnpadx, pady=sbtnpady)
+button_clear.grid(row=2, column=1, padx=sbtnpadx, pady=sbtnpady)
+button_delete.grid(row=2, column=2, padx=sbtnpadx, pady=sbtnpady)
+button_divide.grid(row=2, column=3, padx=sbtnpadx, pady=sbtnpady)
 
 # Row 3 button
-button_4.grid(row=3, column=0, padx=sbtnpadx, pady=sbtnpady)
-button_5.grid(row=3, column=1, padx=sbtnpadx, pady=sbtnpady)
-button_6.grid(row=3, column=2, padx=sbtnpadx, pady=sbtnpady)
-button_subtract.grid(row=3, column=3, padx=sbtnpadx, pady=sbtnpady)
+button_7.grid(row=3, column=0, padx=sbtnpadx, pady=sbtnpady)
+button_8.grid(row=3, column=1, padx=sbtnpadx, pady=sbtnpady)
+button_9.grid(row=3, column=2, padx=sbtnpadx, pady=sbtnpady)
+button_multiply.grid(row=3, column=3, padx=sbtnpadx, pady=sbtnpady)
 
 # Row 4 button
-button_1.grid(row=4, column=0, padx=sbtnpadx, pady=sbtnpady)
-button_2.grid(row=4, column=1, padx=sbtnpadx, pady=sbtnpady)
-button_3.grid(row=4, column=2, padx=sbtnpadx, pady=sbtnpady)
-button_addition.grid(row=4, column=3, padx=sbtnpadx, pady=sbtnpady)
+button_4.grid(row=4, column=0, padx=sbtnpadx, pady=sbtnpady)
+button_5.grid(row=4, column=1, padx=sbtnpadx, pady=sbtnpady)
+button_6.grid(row=4, column=2, padx=sbtnpadx, pady=sbtnpady)
+button_subtract.grid(row=4, column=3, padx=sbtnpadx, pady=sbtnpady)
 
 # Row 5 button
-button_posneg.grid(row=5, column=0, padx=sbtnpadx, pady=sbtnpady)
-button_0.grid(row=5, column=1, padx=sbtnpadx, pady=sbtnpady)
-button_decimal.grid(row=5, column=2, padx=sbtnpadx, pady=sbtnpady)
-button_equal.grid(row=5, column=3, padx=sbtnpadx, pady=sbtnpady)
+button_1.grid(row=5, column=0, padx=sbtnpadx, pady=sbtnpady)
+button_2.grid(row=5, column=1, padx=sbtnpadx, pady=sbtnpady)
+button_3.grid(row=5, column=2, padx=sbtnpadx, pady=sbtnpady)
+button_addition.grid(row=5, column=3, padx=sbtnpadx, pady=sbtnpady)
+
+# Row 6 button
+button_posneg.grid(row=6, column=0, padx=sbtnpadx, pady=sbtnpady)
+button_0.grid(row=6, column=1, padx=sbtnpadx, pady=sbtnpady)
+button_decimal.grid(row=6, column=2, padx=sbtnpadx, pady=sbtnpady)
+button_equal.grid(row=6, column=3, padx=sbtnpadx, pady=sbtnpady)
 
 root.mainloop()
