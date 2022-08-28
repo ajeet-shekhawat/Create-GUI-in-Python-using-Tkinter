@@ -6,6 +6,12 @@ root = Tk()
 root.title("Calculator")
 root.configure(bg="#262626")
 
+# entry field
+e = Entry(root, font=('calibre',20, 'bold'),width=20, bg="#262626", fg="white", 
+    borderwidth=0, justify=RIGHT)
+e.grid(row=0,column=0, columnspan=4, padx=2, pady=3)
+e.insert(0, 0)
+
 # convert number into int or float
 def numFloatInt(eVal):
     try:
@@ -98,13 +104,11 @@ def btnEqual():
         e.insert(0,f_num * s_num)
 
     if math=="division":
-        e.insert(0,f_num / s_num)
-
-# entry field
-e = Entry(root, font=('calibre',20, 'bold'),width=20, bg="#262626", fg="white", 
-    borderwidth=0, justify=RIGHT)
-e.grid(row=0,column=0, columnspan=4, padx=2, pady=3)
-e.insert(0, 0)
+        res = f_num / s_num
+        if f_num % s_num == 0:
+            e.insert(0,numFloatInt(res))
+        else:
+            e.insert(0,res)
 
 # Button properties
 fontbutton = ('MS PGothic',10, 'bold')
