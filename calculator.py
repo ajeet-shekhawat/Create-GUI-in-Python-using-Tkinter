@@ -44,6 +44,13 @@ def btnPosNeg():
     elif current < 0:
         e.delete(0)
 
+# Convert to percentage
+def btnPer():
+    eVal = numFloatInt(e.get())
+    eVal = eVal / 100
+    e.delete(0,END)
+    e.insert(0,eVal)
+
 # Function for addition
 def btnAdd():
     global f_num
@@ -111,7 +118,7 @@ gbNumBtn = "#6B6B6B"
 
 # Calculator Buttons
 # Row 1 buttons
-button_percent = Button(root, text="%", width=btnWidth, height=bthHeight, font=fontbutton, fg=fgBtn, bg=bgBtn, padx=pdxBtn, pady=pdyBtn, borderwidth=0)
+button_percent = Button(root, text="%", width=btnWidth, height=bthHeight, font=fontbutton, fg=fgBtn, bg=bgBtn, padx=pdxBtn, pady=pdyBtn, borderwidth=0, command=btnPer)
 button_clear = Button(root, text="C", width=btnWidth, height=bthHeight, font=fontbutton,fg=fgBtn, bg=bgBtn, padx=pdxBtn, pady=pdyBtn, borderwidth=0, command=btnClearAll)
 button_delete = Button(root, text="del", width=btnWidth, height=bthHeight, font=fontbutton,fg=fgBtn, bg=bgBtn, padx=pdxBtn, pady=pdyBtn, borderwidth=0, command=btnClear)
 button_divide = Button(root, text="/", width=btnWidth, height=bthHeight, font=fontbutton,fg=fgBtn, bg=bgBtn, padx=pdxBtn, pady=pdyBtn, borderwidth=0, command=btnDivide)
