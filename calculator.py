@@ -1,7 +1,9 @@
 from cgitb import text
 from ctypes import alignment
 from stat import FILE_ATTRIBUTE_NORMAL
+import string
 from tkinter import *
+from webbrowser import get
 
 root = Tk()
 root.title("Calculator")
@@ -41,6 +43,8 @@ def numFloatInt(eVal):
 
 # function to input numbers to entry box
 def button_click(number):
+    global math
+    math=""
     current = e.get()
     e.delete(0, END)
     if current != '0':
@@ -77,14 +81,23 @@ def btnPer():
     e.delete(0,END)
     e.insert(0,eVal)
 
+def eString():
+    estr = e0.get()
+    if estr == "":
+        return ""
+    else:
+        estr[:-1]
+
 # Function for addition
 def btnAdd():
     global f_num
     global math
     math = "addition"
     f_num = numFloatInt(e.get())
-    e0.insert(0,str(f_num)+"+")
-    e.delete(0,END)
+    # print(True if e0.get()=="" else False)
+    # e0.insert(0, (str(f_num)+"+") if e0.get()=="" else (eString + "+" + str(f_num)+"+")) 
+    e0.insert(0, str(f_num)+"+")
+    # e.delete(0,END)
 
 # Function for subtraction
 def btnSub():
